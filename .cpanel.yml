@@ -2,4 +2,37 @@
 deployment:
   tasks:
     - export DEPLOYPATH=/home/diga1463/public_html/
-    - /bin/cp -R * $DEPLOYPATH
+    - /bin/cp index.php $DEPLOYPATH
+    - /bin/cp login.php $DEPLOYPATH
+    - /bin/mkdir -p ${DEPLOYPATH}admin
+    - /bin/cp admin/api_faq.php ${DEPLOYPATH}admin/
+    - /bin/cp admin/api_packages.php ${DEPLOYPATH}admin/
+    - /bin/cp admin/api_portfolio.php ${DEPLOYPATH}admin/
+    - /bin/cp admin/api_testimonials.php ${DEPLOYPATH}admin/
+    - /bin/cp admin/api_upload.php ${DEPLOYPATH}admin/
+    - /bin/cp admin/dashboard.php ${DEPLOYPATH}admin/
+    - /bin/cp admin/logout.php ${DEPLOYPATH}admin/
+    - /bin/cp admin/manage_faq.php ${DEPLOYPATH}admin/
+    - /bin/cp admin/manage_packages.php ${DEPLOYPATH}admin/
+    - /bin/cp admin/manage_portfolio.php ${DEPLOYPATH}admin/
+    - /bin/cp admin/manage_testimonials.php ${DEPLOYPATH}admin/
+    - /bin/cp admin/update_content.php ${DEPLOYPATH}admin/
+    - /bin/mkdir -p ${DEPLOYPATH}assets
+    - /bin/cp assets/logo.png ${DEPLOYPATH}assets/
+    - /bin/mkdir -p ${DEPLOYPATH}config
+    - /bin/cp config/auth.php ${DEPLOYPATH}config/
+    - /bin/cp config/database.php ${DEPLOYPATH}config/
+    - /bin/mkdir -p ${DEPLOYPATH}css
+    - /bin/cp css/admin.css ${DEPLOYPATH}css/
+    - /bin/cp css/futuristic.css ${DEPLOYPATH}css/
+    - /bin/cp css/login.css ${DEPLOYPATH}css/
+    - /bin/cp css/main.css ${DEPLOYPATH}css/
+    - /bin/mkdir -p ${DEPLOYPATH}js
+    - /bin/cp js/admin.js ${DEPLOYPATH}js/
+    - /bin/cp js/crop-uploader.js ${DEPLOYPATH}js/
+    - /bin/cp js/faq.js ${DEPLOYPATH}js/
+    - /bin/cp js/futuristic.js ${DEPLOYPATH}js/
+    - /bin/cp js/login.js ${DEPLOYPATH}js/
+    - /bin/cp js/packages.js ${DEPLOYPATH}js/
+    - /bin/cp js/portfolio.js ${DEPLOYPATH}js/
+    - /bin/cp js/testimonials.js ${DEPLOYPATH}js/
