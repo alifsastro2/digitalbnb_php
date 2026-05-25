@@ -1,45 +1,36 @@
 <?php
-// Database Configuration
-define('DB_HOST', 'localhost');
-define('DB_USER', 'root');  // Sesuaikan dengan username phpMyAdmin Anda
-define('DB_PASS', '');      // Sesuaikan dengan password phpMyAdmin Anda
-define('DB_NAME', 'diga1463_digital_bnb');
+// ─── Supabase PostgreSQL — PDO Connection ──────────────────────
+define('DB_HOST', 'db.grdhinkbclhepunerimb.supabase.co');
+define('DB_PORT', '5432');
+define('DB_NAME', 'postgres');
+define('DB_USER', 'postgres');
+define('DB_PASS', 'digitalbnb-2026');
 
-// Create connection
 try {
-    $conn = new mysqli(DB_HOST, DB_USER, DB_PASS, DB_NAME);
-    
-    // Check connection
-    if ($conn->connect_error) {
-        die("Connection failed: " . $conn->connect_error);
-    }
-    
-    // Set charset to UTF-8
-    $conn->set_charset("utf8mb4");
-    
-} catch (Exception $e) {
-    die("Database connection error: " . $e->getMessage());
+    $dsn = sprintf(
+        'pgsql:host=%s;port=%s;dbname=%s;sslmode=require',
+        DB_HOST, DB_PORT, DB_NAME
+    );
+    $conn = new PDO($dsn, DB_USER, DB_PASS, [
+        PDO::ATTR_ERRMODE            => PDO::ERRMODE_EXCEPTION,
+        PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC,
+        PDO::ATTR_EMULATE_PREPARES   => false,
+    ]);
+} catch (PDOException $e) {
+    http_response_code(500);
+    die('Database connection failed. Cek kredensial di config/database.php');
 }
 
-// Function untuk get content dari database
-function getContent($section, $key) {
+function getContent(string $section, string $key): string {
     global $conn;
     $stmt = $conn->prepare("SELECT value FROM site_content WHERE section = ? AND key_name = ?");
-    $stmt->bind_param("ss", $section, $key);
-    $stmt->execute();
-    $result = $stmt->get_result();
-    
-    if ($row = $result->fetch_assoc()) {
-        return $row['value'];
-    }
-    return '';
+    $stmt->execute([$section, $key]);
+    $row = $stmt->fetch();
+    return $row ? $row['value'] : '';
 }
 
-// Function untuk update content
-function updateContent($section, $key, $value) {
+function updateContent(string $section, string $key, string $value): bool {
     global $conn;
     $stmt = $conn->prepare("UPDATE site_content SET value = ? WHERE section = ? AND key_name = ?");
-    $stmt->bind_param("sss", $value, $section, $key);
-    return $stmt->execute();
+    return $stmt->execute([$value, $section, $key]);
 }
-?>
